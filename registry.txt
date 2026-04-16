@@ -1,0 +1,14 @@
+# Tools Registry
+# This file documents available tools in the ~/tools directory
+
+## ddg_search.py - DuckDuckGo Search Tool
+- **Location**: `~/tools/ddgpy/ddg_search.py`
+- **Usage**: 
+  - `ddg "search query" [max_results]` (wrapper script in ~/.local/bin)
+  - `ddg_alias "search query" [max_results]` (alias in ~/.bashrc)
+  - `uv run ddg_search.py "search query" [max_results]` (direct execution)
+- **Description**: Web search tool using the ddgs library that aggregates results from multiple search engines
+- **Dependencies**: ddgs (automatically managed by uv)
+- **Example**: `ddg "github copilot" 5`
+
+## Future tools can be added here...
