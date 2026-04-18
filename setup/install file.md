@@ -121,6 +121,44 @@ alias ddg="cd /home/pgx/tools/ddgpy && uv run ddg_search.py"
 
 This is in addition to the tool-specific wrapper script described in `tools/ddgpy/README.md`.
 
+### 9. Configure Git for GitHub
+
+The user configured Git with a global identity for commits and GitHub access:
+
+```bash
+git config --global user.name "zilberd"
+git config --global user.email "zilberd@gmail.com"
+```
+
+Replace `your-email@example.com` with your actual GitHub account email address.
+
+### 10. Generate an ED25519 SSH key
+
+For the local host identity `pgx@pgx-1b13`:
+
+```bash
+ssh-keygen -t ed25519 -C "pgx@pgx-1b13" -f ~/.ssh/id_ed25519
+ssh-keygen -t ed25519 -C "gx10@gx10-7fec" -f ~/.ssh/id_ed25519
+```
+
+### 11. Add local host name mappings
+
+Add the following lines to `/etc/hosts` on Linux, or to `C:\Windows\System32\drivers\etc\hosts` on Windows:
+
+```text
+192.168.178.11 gx10-7fec gx10-7fec.local gx10 gx10.local
+192.168.178.13 pgx-1b13 pgx pgx-1b13.local pgx.local
+```
+
+On Linux, you can use the helper script included in this setup folder:
+
+```bash
+chmod +x /home/pgx/spark-tools/setup/update-hosts.sh
+sudo /home/pgx/spark-tools/setup/update-hosts.sh
+```
+
+This script backs up the existing `/etc/hosts` file before replacing any existing `gx10*` or `pgx*` entries.
+
 ## Additional notes
 
 - `~/.bashrc` contains environment initialization for local binaries and `sparkrun` tab completion.
