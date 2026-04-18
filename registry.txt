@@ -11,4 +11,11 @@
 - **Dependencies**: ddgs (automatically managed by uv)
 - **Example**: `ddg "github copilot" 5`
 
+## MCP Integration
+- **Configuration**: `~/.vscode/mcp.json` and `~/.config/mcp.json`
+- **Auto-discovery**: Yes! The `description` field tells AI agents this is a web search tool
+- **Available to**: Any AI agent/assistant within VS Code that supports MCP
+- **How it works**: MCP servers are automatically discovered by VS Code's AI assistants
+- **No need to specify**: Once configured, agents can discover and use this tool automatically
+
 ## Future tools can be added here...
