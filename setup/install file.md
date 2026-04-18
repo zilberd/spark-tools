@@ -20,6 +20,11 @@ The user added a sudoers file so `gx10` can run all commands without a password 
 ```bash
 sudo sh -c "echo 'gx10  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/gx10"
 sudo sh -c "echo 'pgx  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/pgx"
+
+sudo useradd -m -s /bin/bash sparkrun
+sudo passwd sparkrun  # Set the password interactively
+sudo usermod -aG sudo sparkrun
+sudo sh -c "echo 'sparkrun  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/sparkrun"
 ```
 
 This is a machine-level configuration that does not appear in the tool README.
@@ -138,7 +143,17 @@ For the local host identity `pgx@pgx-1b13`:
 
 ```bash
 ssh-keygen -t ed25519 -C "pgx@pgx-1b13" -f ~/.ssh/id_ed25519
+sudo su gx10
+ssh-keygen -t ed25519 -C "gx10@pgx-1b13" -f ~/.ssh/id_ed25519
+sudo su sparkrun
+ssh-keygen -t ed25519 -C "sparkrun@pgx-1b13" -f ~/.ssh/id_ed25519
+
+
 ssh-keygen -t ed25519 -C "gx10@gx10-7fec" -f ~/.ssh/id_ed25519
+sudo su pgx
+ssh-keygen -t ed25519 -C "pgx@gx10-7fec" -f ~/.ssh/id_ed25519
+sudo su sparkrun
+ssh-keygen -t ed25519 -C "sparkrun@gx10-7fec" -f ~/.ssh/id_ed25519
 ```
 
 ### 11. Add local host name mappings
@@ -149,6 +164,19 @@ Add the following lines to `/etc/hosts` on Linux, or to `C:\Windows\System32\dri
 192.168.178.11 gx10-7fec gx10-7fec.local gx10 gx10.local
 192.168.178.13 pgx-1b13 pgx pgx-1b13.local pgx.local
 ```
+
+### 12. Prepare ssh
+
+create the file `nano ~/.ssh/config`
+
+copy the keys to the other server 
+````bash
+ssh-copy-id -i ~/.ssh/id_ed25519.pub pgx@192.168.178.13
+ssh-copy-id -i ~/.ssh/id_ed25519.pub gx10@192.168.178.11
+````
+
+### cluster
+`sparkrun cluster create 2nodes --hosts 192.168.178.11,192.168.178.13 --default`
 
 On Linux, you can use the helper script included in this setup folder:
 

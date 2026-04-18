@@ -1,0 +1,9 @@
+Host 192.168.178.11
+    User gx10
+    IdentityFile ~/.ssh/id_ed25519
+    SetEnv RSYNC_RSH="ssh"
+
+Host 192.168.178.13
+    User pgx
+    IdentityFile ~/.ssh/id_ed25519
+    SetEnv RSYNC_RSH="ssh"
