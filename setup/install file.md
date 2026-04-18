@@ -19,6 +19,7 @@ The user added a sudoers file so `gx10` can run all commands without a password 
 
 ```bash
 sudo sh -c "echo 'gx10  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/gx10"
+sudo sh -c "echo 'pgx  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/pgx"
 ```
 
 This is a machine-level configuration that does not appear in the tool README.
@@ -78,7 +79,6 @@ The following packages were installed via `apt`:
 
 ```bash
 sudo apt install nvtop
-sudo apt install nvitop
 ```
 
 The first attempt included a typo (`nvitop`) and the second command installed the correct package `nvtop`.
@@ -116,6 +116,7 @@ The user also added a convenience alias in `~/.bashrc`:
 
 ```bash
 alias ddg="cd /home/gx10/tools/ddgpy && uv run ddg_search.py"
+alias ddg="cd /home/pgx/tools/ddgpy && uv run ddg_search.py"
 ```
 
 This is in addition to the tool-specific wrapper script described in `tools/ddgpy/README.md`.
