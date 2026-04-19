@@ -217,8 +217,35 @@ New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Wi
 
 # Example: Defaulting to Ubuntu
 New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\wsl.exe -d Ubuntu" -PropertyType String -Force
-New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\wsl.exe --distribution-id {e420c704-7315-4cf4-9d5c-72a5508c5f3a}" -PropertyType String -Force
 
+# correct rights on admins auth
+$adminKeyPath = "$env:ProgramData\ssh\administrators_authorized_keys"
+icacls.exe $adminKeyPath /inheritance:r
+icacls.exe $adminKeyPath /grant "Administrators:F"
+icacls.exe $adminKeyPath /grant "SYSTEM:F"
+
+config file for SSH
+````bash
+Host lenovo
+  Hostname 192.168.178.20
+  User dimitri
+  Port 22
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
+
+Host thinkcenter
+  Hostname 192.168.178.20
+  User dimitri
+  Port 22
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
+
+Host 192.168.178.20
+  Hostname 192.168.178.20
+  User dimitri
+  Port 22
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
 ````
 
 
