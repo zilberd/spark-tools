@@ -171,11 +171,18 @@ create the file `nano ~/.ssh/config`
 
 copy the keys to the other server 
 ````bash
-ssh-copy-id -i ~/.ssh/id_ed25519.pub pgx@192.168.178.13
+ssh-copy-id -i ~/.ssh/id_ed25519.pub gx10@192.168.178.13
 ssh-copy-id -i ~/.ssh/id_ed25519.pub gx10@192.168.178.11
+
+ssh-copy-id -i ~/.ssh/id_ed25519.pub pgx@192.168.178.13
+ssh-copy-id -i ~/.ssh/id_ed25519.pub pgx@192.168.178.11
+
+ssh-copy-id -i ~/.ssh/id_ed25519.pub sparkrun@192.168.178.13
+ssh-copy-id -i ~/.ssh/id_ed25519.pub sparkrun@192.168.178.11
+
 ````
 
-### cluster
+### 13 cluster
 `sparkrun cluster create 2nodes --hosts 192.168.178.11,192.168.178.13 --default`
 
 On Linux, you can use the helper script included in this setup folder:
@@ -186,6 +193,34 @@ sudo /home/pgx/spark-tools/setup/update-hosts.sh
 ```
 
 This script backs up the existing `/etc/hosts` file before replacing any existing `gx10*` or `pgx*` entries.
+
+### 14 windows
+
+````powershell
+Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH.Server*'
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+# Start the SSH server
+Start-Service sshd
+
+# Set it to start automatically at boot
+Set-Service -Name sshd -StartupType 'Automatic'
+
+#firewall
+Get-NetFirewallRule -Name *ssh*
+New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+
+#default as powershell
+New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+
+#default as wsl
+New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\wsl.exe" -PropertyType String -Force
+
+# Example: Defaulting to Ubuntu
+New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\wsl.exe -d Ubuntu" -PropertyType String -Force
+New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\wsl.exe --distribution-id {e420c704-7315-4cf4-9d5c-72a5508c5f3a}" -PropertyType String -Force
+
+````
+
 
 ## Additional notes
 
